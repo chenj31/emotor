@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>所有文章 - eMotor.top</title>
-    <link>https://www.eMotor.top/posts/</link>
+    <title>电机控制 - 标签 - eMotor.top</title>
+    <link>https://www.eMotor.top/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/</link>
     <description>eMotor.top</description>
     <generator>Hugo 0.152.2 &amp; FixIt v0.4.0-alpha.3-20251128065536-6d00e42b</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 28 Nov 2025 15:58:22 +0800</lastBuildDate>
-    <atom:link href="https://www.eMotor.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.eMotor.top/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FOC控制基础详解</title>
       <link>https://www.eMotor.top/posts/985fee6/</link>
@@ -15,14 +15,6 @@
       <guid>https://www.eMotor.top/posts/985fee6/</guid>
       <category domain="https://www.eMotor.top/categories/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/">电机控制</category>
       <description>FOC（Field Oriented Control，磁场定向控制）是一种先进的电机控制技术，能够实现对交流电机的精确控制。本文将详细介绍FOC的基本原理、坐标变换、控制算法及其实现过程。</description>
-    </item>
-    <item>
-      <title>My First Post</title>
-      <link>https://www.eMotor.top/posts/583bc6c/</link>
-      <pubDate>Fri, 28 Nov 2025 15:06:14 +0800</pubDate><author>mail@eMotor.Top (eMotor)</author>
-      <guid>https://www.eMotor.top/posts/583bc6c/</guid>
-      <category domain="https://www.eMotor.top/categories/web/">Web</category>
-      <description>My First Post</description>
     </item>
   </channel>
 </rss>

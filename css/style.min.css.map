@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "D:/sw/hugo/emotortop",
+	"sourceRoot": "D:/SW/Hugo/emotortop",
 	"sources": [
 		"themes/Fixit/assets/css/style.scss",
 		"themes/Fixit/assets/css/_variables.scss",

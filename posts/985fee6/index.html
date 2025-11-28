@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>FOC控制基础详解 - eMotor.top</title><meta name="author" content="eMotor">
+<meta name="description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。"><meta name="keywords" content='FOC,电机控制,PMSM,无刷电机,矢量控制'>
+  <meta itemprop="name" content="FOC控制基础详解">
+  <meta itemprop="description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。">
+  <meta itemprop="datePublished" content="2025-11-28T15:58:22+08:00">
+  <meta itemprop="dateModified" content="2025-11-28T15:58:22+08:00">
+  <meta itemprop="wordCount" content="1160">
+  <meta itemprop="keywords" content="FOC,电机控制,PMSM,无刷电机,矢量控制"><meta property="og:url" content="https://www.eMotor.top/posts/985fee6/">
+  <meta property="og:site_name" content="eMotor.top">
+  <meta property="og:title" content="FOC控制基础详解">
+  <meta property="og:description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-28T15:58:22+08:00">
+    <meta property="article:modified_time" content="2025-11-28T15:58:22+08:00">
+    <meta property="article:tag" content="FOC">
+    <meta property="article:tag" content="电机控制">
+    <meta property="article:tag" content="PMSM">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FOC控制基础详解">
+  <meta name="twitter:description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://www.eMotor.top/posts/985fee6/" title="FOC控制基础详解 - eMotor.top" /><link rel="prev" type="text/html" href="https://www.eMotor.top/posts/583bc6c/" title="My First Post" /><link rel="alternate" type="text/markdown" href="https://www.eMotor.top/posts/985fee6/index.md" title="FOC控制基础详解 - eMotor.top"><link rel="stylesheet" href="/css/config.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "FOC控制基础详解",
+    "inLanguage": "en-us",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/www.eMotor.top\/posts\/985fee6\/"
+    },"genre": "posts","keywords": "FOC, 电机控制, PMSM","wordcount":  1160 ,
+    "url": "https:\/\/www.eMotor.top\/posts\/985fee6\/","datePublished": "2025-11-28T15:58:22+08:00","dateModified": "2025-11-28T15:58:22+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "eMotor"
+      },"description": "本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。"
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-instant-intensity="viewport" data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="eMotor.top"><span class="header-title-text">eMotor.top</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> Categories</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" role="button" aria-label="切换主题" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="eMotor.top"><span class="header-title-text">eMotor.top</span></a><span class="header-subtitle"></span></div>
+      <div class="theme-switch" role="button" aria-label="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></div>
+      <div class="menu-toggle" id="menu-toggle-mobile" role="button" aria-labelledby="menu-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> Categories</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system"></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="fi-container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span title="转载" class="icon-repost"><i class="fa-solid fa-share fa-fw" aria-hidden="true"></i></span><span>FOC控制基础详解</span>
+      </h1><p class="single-subtitle animate__animated animate__fadeIn">从原理到实现的全面介绍</p></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      eMotor</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" class="post-category" title="分类 - 电机控制"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 电机控制</a></span></div><div class="post-meta-line"><span title="发布于 2025-11-28 15:58:22"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-11-28">2025-11-28</time></span>&nbsp;<span title="1160 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是foc控制">什么是FOC控制</a></li>
+    <li><a href="#foc的基本原理">FOC的基本原理</a></li>
+    <li><a href="#坐标变换">坐标变换</a>
+      <ul>
+        <li><a href="#clarke变换αβ变换">Clarke变换（αβ变换）</a></li>
+        <li><a href="#park变换dq变换">Park变换（dq变换）</a></li>
+      </ul>
+    </li>
+    <li><a href="#foc控制系统的实现">FOC控制系统的实现</a>
+      <ul>
+        <li><a href="#1-位置检测">1. 位置检测</a></li>
+        <li><a href="#2-电流采样与调理">2. 电流采样与调理</a></li>
+        <li><a href="#3-坐标变换模块">3. 坐标变换模块</a></li>
+        <li><a href="#4-pi控制器">4. PI控制器</a></li>
+        <li><a href="#5-空间矢量脉宽调制svpwm">5. 空间矢量脉宽调制（SVPWM）</a></li>
+      </ul>
+    </li>
+    <li><a href="#foc的优势">FOC的优势</a></li>
+    <li><a href="#应用场景">应用场景</a></li>
+    <li><a href="#实现难点与挑战">实现难点与挑战</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 class="heading-element" id="什么是foc控制"><span>什么是FOC控制</span>
+  <a href="#%e4%bb%80%e4%b9%88%e6%98%affoc%e6%8e%a7%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>FOC（Field Oriented Control），即磁场定向控制，也被称为矢量控制（Vector Control），是一种用于控制交流电机（特别是永磁同步电机PMSM和感应电机）的先进控制策略。通过FOC控制，我们可以像控制直流电机一样独立地控制电机的磁通和转矩，从而实现高精度、高效率的电机控制。</p>
+<h2 class="heading-element" id="foc的基本原理"><span>FOC的基本原理</span>
+  <a href="#foc%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>FOC的核心思想是将交流电机的定子电流分解为两个相互垂直的分量：</p>
+<ul>
+<li>励磁电流分量（Id）：用于产生磁场</li>
+<li>转矩电流分量（Iq）：用于产生电磁转矩</li>
+</ul>
+<p>通过分别控制这两个分量，我们可以实现对电机磁场和转矩的独立调节，这与直流电机中励磁绕组和电枢绕组的控制非常相似。</p>
+<h2 class="heading-element" id="坐标变换"><span>坐标变换</span>
+  <a href="#%e5%9d%90%e6%a0%87%e5%8f%98%e6%8d%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>FOC控制依赖于一系列坐标变换来实现对电机的精确控制：</p>
+<h3 class="heading-element" id="clarke变换αβ变换"><span>Clarke变换（αβ变换）</span>
+  <a href="#clarke%e5%8f%98%e6%8d%a2%ce%b1%ce%b2%e5%8f%98%e6%8d%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Clarke变换将三相静止坐标系（ABC）转换为两相静止坐标系（αβ）：</p>
+$$
+\begin{bmatrix}
+f_\alpha\\f_\beta
+\end{bmatrix} 
+= \frac{2}{3}
+\begin{bmatrix}
+1 &amp; -\frac{1}{2} &amp; -\frac{1}{2} \\
+0 &amp; \frac{\sqrt{3}}{2} &amp; -\frac{\sqrt{3}}{2}
+\end{bmatrix}
+\begin{bmatrix}
+f_a \\
+f_b \\
+f_c
+\end{bmatrix}
+$$<h3 class="heading-element" id="park变换dq变换"><span>Park变换（dq变换）</span>
+  <a href="#park%e5%8f%98%e6%8d%a2dq%e5%8f%98%e6%8d%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Park变换将两相静止坐标系（αβ）转换为两相旋转坐标系（dq）：</p>
+$$
+\begin{bmatrix}f_d \\ f_q\end{bmatrix}=\begin{bmatrix}
+\cos\theta &amp; \sin\theta \\ -\sin\theta &amp; \cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+f_\alpha \\ f_\beta
+\end{bmatrix}
+$$<p>其中θ是转子的电角度。</p>
+<h2 class="heading-element" id="foc控制系统的实现"><span>FOC控制系统的实现</span>
+  <a href="#foc%e6%8e%a7%e5%88%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>一个典型的FOC控制系统包含以下几个关键部分：</p>
+<h3 class="heading-element" id="1-位置检测"><span>1. 位置检测</span>
+  <a href="#1-%e4%bd%8d%e7%bd%ae%e6%a3%80%e6%b5%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>准确的位置信息对于FOC至关重要。常用的位置检测方法包括：</p>
+<ul>
+<li>霍尔传感器</li>
+<li>编码器</li>
+<li>旋转变压器</li>
+<li>无传感器估算算法</li>
+</ul>
+<h3 class="heading-element" id="2-电流采样与调理"><span>2. 电流采样与调理</span>
+  <a href="#2-%e7%94%b5%e6%b5%81%e9%87%87%e6%a0%b7%e4%b8%8e%e8%b0%83%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>需要实时采样三相电流，并进行滤波和调理处理。</p>
+<h3 class="heading-element" id="3-坐标变换模块"><span>3. 坐标变换模块</span>
+  <a href="#3-%e5%9d%90%e6%a0%87%e5%8f%98%e6%8d%a2%e6%a8%a1%e5%9d%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>实现Clarke变换和Park变换，将三相电流转换为dq轴电流。</p>
+<h3 class="heading-element" id="4-pi控制器"><span>4. PI控制器</span>
+  <a href="#4-pi%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>通常使用PI控制器分别控制Id和Iq电流分量：</p>
+<ul>
+<li>Id环路控制励磁电流</li>
+<li>Iq环路控制转矩电流</li>
+</ul>
+<h3 class="heading-element" id="5-空间矢量脉宽调制svpwm"><span>5. 空间矢量脉宽调制（SVPWM）</span>
+  <a href="#5-%e7%a9%ba%e9%97%b4%e7%9f%a2%e9%87%8f%e8%84%89%e5%ae%bd%e8%b0%83%e5%88%b6svpwm" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>根据控制算法输出的电压参考值，生成相应的PWM信号驱动逆变器。</p>
+<h2 class="heading-element" id="foc的优势"><span>FOC的优势</span>
+  <a href="#foc%e7%9a%84%e4%bc%98%e5%8a%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><strong>高效率</strong>：通过精确控制磁场和转矩，减少能量损耗</li>
+<li><strong>高精度控制</strong>：实现低速大转矩和高速精确控制</li>
+<li><strong>响应速度快</strong>：动态响应性能优异</li>
+<li><strong>低噪声</strong>：控制算法优化可以有效降低电机噪声</li>
+<li><strong>宽调速范围</strong>：从零速到额定转速均能良好工作</li>
+</ol>
+<h2 class="heading-element" id="应用场景"><span>应用场景</span>
+  <a href="#%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>FOC广泛应用于各种高性能电机控制场合：</p>
+<ul>
+<li>电动汽车驱动系统</li>
+<li>工业自动化设备</li>
+<li>家用电器（如空调压缩机、洗衣机）</li>
+<li>无人机和电动工具</li>
+<li>风力发电系统</li>
+</ul>
+<h2 class="heading-element" id="实现难点与挑战"><span>实现难点与挑战</span>
+  <a href="#%e5%ae%9e%e7%8e%b0%e9%9a%be%e7%82%b9%e4%b8%8e%e6%8c%91%e6%88%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>尽管FOC具有诸多优势，但在实际应用中仍面临一些挑战：</p>
+<ol>
+<li><strong>参数敏感性</strong>：电机参数变化会影响控制性能</li>
+<li><strong>位置检测精度</strong>：位置传感器的精度直接影响控制效果</li>
+<li><strong>计算复杂度</strong>：需要较强的处理器实现实时控制</li>
+<li><strong>调试难度</strong>：控制参数较多，调试相对复杂</li>
+</ol>
+<h2 class="heading-element" id="总结"><span>总结</span>
+  <a href="#%e6%80%bb%e7%bb%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>FOC作为一种先进的电机控制技术，在现代电机控制系统中发挥着重要作用。随着数字信号处理器和功率器件的发展，FOC的应用越来越广泛。掌握FOC的基本原理和实现方法，对于从事电机控制领域的工程师来说具有重要意义。</p>
+<p>通过合理设计和优化，FOC控制系统可以在各种应用场景中提供卓越的控制性能，满足不同负载工况下的需求.</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod"><span title="更新于 2025-11-28 15:58:22">更新于 2025-11-28&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/985fee6/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://www.eMotor.top/posts/985fee6/" data-title="FOC控制基础详解" data-hashtags="FOC,电机控制,PMSM"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://www.eMotor.top/posts/985fee6/" data-hashtag="FOC"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://www.eMotor.top/posts/985fee6/" data-title="FOC控制基础详解"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/foc/" class="post-tag" title="标签 - FOC">FOC</a><a href="/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" class="post-tag" title="标签 - 电机控制">电机控制</a><a href="/tags/pmsm/" class="post-tag" title="标签 - PMSM">PMSM</a></section>
+    <section><span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/583bc6c/" class="post-nav-item" rel="prev" title="My First Post"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>My First Post</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside><dialog id="toc-dialog" aria-labelledby="toc-dialog-title" role="dialog">
+      <div class="toc">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-drawer"><nav >
+  <ul>
+    <li><a href="#什么是foc控制">什么是FOC控制</a></li>
+    <li><a href="#foc的基本原理">FOC的基本原理</a></li>
+    <li><a href="#坐标变换">坐标变换</a>
+      <ul>
+        <li><a href="#clarke变换αβ变换">Clarke变换（αβ变换）</a></li>
+        <li><a href="#park变换dq变换">Park变换（dq变换）</a></li>
+      </ul>
+    </li>
+    <li><a href="#foc控制系统的实现">FOC控制系统的实现</a>
+      <ul>
+        <li><a href="#1-位置检测">1. 位置检测</a></li>
+        <li><a href="#2-电流采样与调理">2. 电流采样与调理</a></li>
+        <li><a href="#3-坐标变换模块">3. 坐标变换模块</a></li>
+        <li><a href="#4-pi控制器">4. PI控制器</a></li>
+        <li><a href="#5-空间矢量脉宽调制svpwm">5. 空间矢量脉宽调制（SVPWM）</a></li>
+      </ul>
+    </li>
+    <li><a href="#foc的优势">FOC的优势</a></li>
+    <li><a href="#应用场景">应用场景</a></li>
+    <li><a href="#实现难点与挑战">实现难点与挑战</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+      </div>
+    </dialog></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.152.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.4.0-alpha.3-20251128065536-6d00e42b"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons"><div class="fixed-button back-to-top animate__faster d-none" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i></div><div id="toc-drawer-button" class="fixed-button toc-drawer-button d-none" role="button" aria-label="目录"><i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="/js/config/81486213fd16978b633273407b81c7f7.js" defer></script><script src="/js/lib/mathjax/81486213fd16978b633273407b81c7f7.min.js" defer></script><script src="/js/theme.min.js" defer></script></body>
+</html>
