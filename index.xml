@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>eMotor.top</title>
+    <link>https://www.eMotor.top/</link>
+    <description>eMotor.top</description>
+    <generator>Hugo 0.152.2 &amp; FixIt v0.4.0-alpha.3-20251128065536-6d00e42b</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 28 Nov 2025 15:06:14 +0800</lastBuildDate>
+    <atom:link href="https://www.eMotor.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Post</title>
+      <link>https://www.eMotor.top/posts/583bc6c/</link>
+      <pubDate>Fri, 28 Nov 2025 15:06:14 +0800</pubDate><author>mail@eMotor.Top (eMotor)</author>
+      <guid>https://www.eMotor.top/posts/583bc6c/</guid>
+      <category domain="https://www.eMotor.top/categories/web/">Web</category>
+      <description></description>
+    </item>
+  </channel>
+</rss>
