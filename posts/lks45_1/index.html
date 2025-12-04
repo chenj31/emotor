@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>凌鸥45系列的 GCC 平台搭建 - eMotor.top</title><meta name="author" content="eMotor">
+<meta name="description" content="指导大家使用开源工具搭建LKS45系列的软件平台"><meta name="keywords" content='凌鸥, LKSCONFIG, 开源, GCC'>
+  <meta itemprop="name" content="凌鸥45系列的 GCC 平台搭建">
+  <meta itemprop="description" content="指导大家使用开源工具搭建LKS45系列的软件平台">
+  <meta itemprop="datePublished" content="2025-12-04T11:49:14+08:00">
+  <meta itemprop="dateModified" content="2025-12-04T11:49:14+08:00">
+  <meta itemprop="wordCount" content="927">
+  <meta itemprop="keywords" content="凌鸥,LKSCONFIG,开源,GCC"><meta property="og:url" content="https://www.eMotor.top/posts/lks45_1/">
+  <meta property="og:site_name" content="eMotor.top">
+  <meta property="og:title" content="凌鸥45系列的 GCC 平台搭建">
+  <meta property="og:description" content="指导大家使用开源工具搭建LKS45系列的软件平台">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-04T11:49:14+08:00">
+    <meta property="article:modified_time" content="2025-12-04T11:49:14+08:00">
+    <meta property="article:tag" content="凌鸥">
+    <meta property="article:tag" content="LKSCONFIG">
+    <meta property="article:tag" content="开源">
+    <meta property="article:tag" content="GCC">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="凌鸥45系列的 GCC 平台搭建">
+  <meta name="twitter:description" content="指导大家使用开源工具搭建LKS45系列的软件平台">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://www.eMotor.top/posts/lks45_1/" title="凌鸥45系列的 GCC 平台搭建 - eMotor.top" /><link rel="prev" type="text/html" href="https://www.eMotor.top/posts/foc_1/" title="FOC控制基础详解" /><link rel="alternate" type="text/markdown" href="https://www.eMotor.top/posts/lks45_1/index.md" title="凌鸥45系列的 GCC 平台搭建 - eMotor.top"><link rel="stylesheet" href="/css/config.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "凌鸥45系列的 GCC 平台搭建",
+    "inLanguage": "en-us",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/www.eMotor.top\/posts\/lks45_1\/"
+    },"genre": "posts","keywords": "凌鸥, LKSCONFIG, 开源, GCC","wordcount":  927 ,
+    "url": "https:\/\/www.eMotor.top\/posts\/lks45_1\/","datePublished": "2025-12-04T11:49:14+08:00","dateModified": "2025-12-04T11:49:14+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "eMotor"
+      },"description": "指导大家使用开源工具搭建LKS45系列的软件平台"
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-instant-intensity="viewport" data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="eMotor.top"><span class="header-title-text">eMotor.top</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> Categories</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" role="button" aria-label="切换主题" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="eMotor.top"><span class="header-title-text">eMotor.top</span></a><span class="header-subtitle"></span></div>
+      <div class="theme-switch" role="button" aria-label="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></div>
+      <div class="menu-toggle" id="menu-toggle-mobile" role="button" aria-labelledby="menu-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> Categories</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system"></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="fi-container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>凌鸥45系列的 GCC 平台搭建</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      eMotor</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" class="post-category" title="分类 - 电机控制"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 电机控制</a></span></div><div class="post-meta-line"><span title="发布于 2025-12-04 11:49:14"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-12-04">2025-12-04</time></span>&nbsp;<span title="927 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一使用官方-lks_config-配置底层代码简化框架搭建">一、使用官方 LKS_CONFIG 配置底层代码（简化框架搭建）</a>
+      <ul>
+        <li><a href="#1-选择-mcu-型号">1. 选择 MCU 型号</a></li>
+        <li><a href="#2-配置时钟">2. 配置时钟</a></li>
+        <li><a href="#3-配置-io-输出">3. 配置 IO 输出</a></li>
+        <li><a href="#4-开启运放和-adc">4. 开启运放和 ADC</a></li>
+      </ul>
+    </li>
+    <li><a href="#二生成底层代码">二、生成底层代码</a></li>
+    <li><a href="#三使用自带工具编译">三、使用自带工具编译</a>
+      <ul>
+        <li><a href="#1-安装依赖组件-mingw32">1. 安装依赖组件 mingw32</a></li>
+        <li><a href="#2-编译报错及解决方案">2. 编译报错及解决方案</a>
+          <ul>
+            <li><a href="#报错-1外部晶振变量配置错误">报错 1：外部晶振变量配置错误</a></li>
+            <li><a href="#报错-2无法找到-trim_read">报错 2：无法找到 TRIM_Read</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-编译成功验证">3. 编译成功验证</a></li>
+      </ul>
+    </li>
+    <li><a href="#四点灯程序调试">四、点灯程序调试</a></li>
+    <li><a href="#五后续计划切换到-eide-环境">五、后续计划：切换到 EIDE 环境</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h1 class="heading-element" id="凌鸥45系列的-gcc-平台搭建"><span>凌鸥45系列的 GCC 平台搭建</span>
+  <a href="#%e5%87%8c%e9%b8%a545%e7%b3%bb%e5%88%97%e7%9a%84-gcc-%e5%b9%b3%e5%8f%b0%e6%90%ad%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h1><h2 class="heading-element" id="一使用官方-lks_config-配置底层代码简化框架搭建"><span>一、使用官方 LKS_CONFIG 配置底层代码（简化框架搭建）</span>
+  <a href="#%e4%b8%80%e4%bd%bf%e7%94%a8%e5%ae%98%e6%96%b9-lks_config-%e9%85%8d%e7%bd%ae%e5%ba%95%e5%b1%82%e4%bb%a3%e7%a0%81%e7%ae%80%e5%8c%96%e6%a1%86%e6%9e%b6%e6%90%ad%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 class="heading-element" id="1-选择-mcu-型号"><span>1. 选择 MCU 型号</span>
+  <a href="#1-%e9%80%89%e6%8b%a9-mcu-%e5%9e%8b%e5%8f%b7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>打开 LKS_CONFIG 工具，在 MCU 筛选环节选择对应型号：</p>
+<ul>
+<li>
+<p>MCU 系列：LKS45x</p>
+</li>
+<li>
+<p>MCU 型号：LKS32MC453RCT8</p>
+</li>
+</ul>
+<h3 class="heading-element" id="2-配置时钟"><span>2. 配置时钟</span>
+  <a href="#2-%e9%85%8d%e7%bd%ae%e6%97%b6%e9%92%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在时钟配置界面进行参数设定：</p>
+<ul>
+<li>HSI@12MHz</li>
+</ul>
+<h3 class="heading-element" id="3-配置-io-输出"><span>3. 配置 IO 输出</span>
+  <a href="#3-%e9%85%8d%e7%bd%ae-io-%e8%be%93%e5%87%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>依据硬件原理图，在工具中对对应 IO 引脚进行输出配置，匹配硬件上的电源灯等外设的引脚需求。</p>
+<h3 class="heading-element" id="4-开启运放和-adc"><span>4. 开启运放和 ADC</span>
+  <a href="#4-%e5%bc%80%e5%90%af%e8%bf%90%e6%94%be%e5%92%8c-adc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在<strong>外设配置</strong>界面，启用对应的运放模块和 ADC 通道，为后续模拟信号采集和处理预留硬件接口。</p>
+<h2 class="heading-element" id="二生成底层代码"><span>二、生成底层代码</span>
+  <a href="#%e4%ba%8c%e7%94%9f%e6%88%90%e5%ba%95%e5%b1%82%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在 LKS_CONFIG 工具的<strong>代码生成</strong>界面，完成以下配置并生成工程：</p>
+<ul>
+<li>工程名称：LKS453_Pump</li>
+<li>工程目录：E:/EmIDE/LKS453_EIDE/</li>
+<li>IDE 选型：gcc</li>
+<li>点击<strong>生成代码</strong>完成工程创建</li>
+</ul>
+<h2 class="heading-element" id="三使用自带工具编译"><span>三、使用自带工具编译</span>
+  <a href="#%e4%b8%89%e4%bd%bf%e7%94%a8%e8%87%aa%e5%b8%a6%e5%b7%a5%e5%85%b7%e7%bc%96%e8%af%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 class="heading-element" id="1-安装依赖组件-mingw32"><span>1. 安装依赖组件 mingw32</span>
+  <a href="#1-%e5%ae%89%e8%a3%85%e4%be%9d%e8%b5%96%e7%bb%84%e4%bb%b6-mingw32" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>编译前需安装 mingw32</p>
+<h3 class="heading-element" id="2-编译报错及解决方案"><span>2. 编译报错及解决方案</span>
+  <a href="#2-%e7%bc%96%e8%af%91%e6%8a%a5%e9%94%99%e5%8f%8a%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 class="heading-element" id="报错-1外部晶振变量配置错误"><span>报错 1：外部晶振变量配置错误</span>
+  <a href="#%e6%8a%a5%e9%94%99-1%e5%a4%96%e9%83%a8%e6%99%b6%e6%8c%af%e5%8f%98%e9%87%8f%e9%85%8d%e7%bd%ae%e9%94%99%e8%af%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li><strong>报错信息</strong>：<code>source/hardware_init.c:14:33: error: 'SYS_PLLSRSEL_CRYSTAL' undeclared</code></li>
+<li><strong>原因</strong>：时钟配置的 PLL 源选择宏定义不匹配</li>
+<li><strong>解决方法</strong>：将<code>hardware_init.c</code>中<code>SYS_InitStruct.PLL_SrcSel = SYS_PLLSRSEL_CRYSTAL;</code>修改为<code>SYS_PLLSRSEL_CRYSTAL_12M</code>；或直接改用 HSI 时钟，避免重复报错</li>
+</ul>
+<h4 class="heading-element" id="报错-2无法找到-trim_read"><span>报错 2：无法找到 TRIM_Read</span>
+  <a href="#%e6%8a%a5%e9%94%99-2%e6%97%a0%e6%b3%95%e6%89%be%e5%88%b0-trim_read" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li><strong>报错信息</strong>：<code>undefined reference to TRIM_Read</code></li>
+<li><strong>原因</strong>：makefile 未引用<code>lks32mc45x_periph_driver/Source/liblks32mc45x_trim.a</code>库文件</li>
+<li><strong>解决方法</strong>：在 makefile 中添加该库文件路径，修改后关键配置如下：</li>
+</ul>
+<p>makefile</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># libraries
+</span></span><span class="line"><span class="cl">LIBDIR =lks32mc45x_periph_driver/Source/liblks32mc45x_trim.a
+</span></span><span class="line"><span class="cl">LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>建议修改 LKS_CONFIG 目录下的模块，避免后续生成代码重复触发该报错</p>
+</blockquote>
+<h3 class="heading-element" id="3-编译成功验证"><span>3. 编译成功验证</span>
+  <a href="#3-%e7%bc%96%e8%af%91%e6%88%90%e5%8a%9f%e9%aa%8c%e8%af%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>编译完成后会生成<code>build/LKS453_Pump.elf</code>等文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">filename              text    data     bss     dec     hex
+</span></span><span class="line"><span class="cl">build/LKS453_Pump.elf  5344    4836       8   10188    27cc</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时会生成<code>hex</code>和<code>bin</code>格式的可下载程序文件</p>
+<h2 class="heading-element" id="四点灯程序调试"><span>四、点灯程序调试</span>
+  <a href="#%e5%9b%9b%e7%82%b9%e7%81%af%e7%a8%8b%e5%ba%8f%e8%b0%83%e8%af%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在<code>main.c</code>的 while 循环中添加点灯逻辑，即可通过 Jlink 的 RTT 工具进行调试，核心代码示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN MainWhile */</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">GPIO_ResetBits</span><span class="p">(</span><span class="n">GPIO1</span><span class="p">,</span> <span class="n">GPIO_Pin_1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">GPIO_ResetBits</span><span class="p">(</span><span class="n">GPIO1</span><span class="p">,</span> <span class="n">GPIO_Pin_2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">GPIO_ResetBits</span><span class="p">(</span><span class="n">GPIO1</span><span class="p">,</span> <span class="n">GPIO_Pin_3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">PRINTF</span><span class="p">(</span><span class="s">&#34;flash</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">delay_ms</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">GPIO_SetBits</span><span class="p">(</span><span class="n">GPIO1</span><span class="p">,</span> <span class="n">GPIO_Pin_1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">GPIO_SetBits</span><span class="p">(</span><span class="n">GPIO1</span><span class="p">,</span> <span class="n">GPIO_Pin_2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">GPIO_SetBits</span><span class="p">(</span><span class="n">GPIO1</span><span class="p">,</span> <span class="n">GPIO_Pin_3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END MainWhile */</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">PRINTF</span><span class="p">(</span><span class="s">&#34;run main.while()...</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">delay_ms</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>RTT Viewer 终端会输出调试日志，验证程序正常运行。</p>
+<h2 class="heading-element" id="五后续计划切换到-eide-环境"><span>五、后续计划：切换到 EIDE 环境</span>
+  <a href="#%e4%ba%94%e5%90%8e%e7%bb%ad%e8%ae%a1%e5%88%92%e5%88%87%e6%8d%a2%e5%88%b0-eide-%e7%8e%af%e5%a2%83" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>由于凌鸥默认配套环境功能简陋，可将工程移植到 vscode 搭载的 EIDE 框架中，结合各类 AI 插件提升开发效率。</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod"><span title="更新于 2025-12-04 11:49:14">更新于 2025-12-04&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/lks45_1/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://www.eMotor.top/posts/lks45_1/" data-title="凌鸥45系列的 GCC 平台搭建" data-hashtags="凌鸥,LKSCONFIG,开源,GCC"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://www.eMotor.top/posts/lks45_1/" data-hashtag="凌鸥"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://www.eMotor.top/posts/lks45_1/" data-title="凌鸥45系列的 GCC 平台搭建"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%87%8C%E9%B8%A5/" class="post-tag" title="标签 - 凌鸥">凌鸥</a><a href="/tags/lksconfig/" class="post-tag" title="标签 - LKSCONFIG">LKSCONFIG</a><a href="/tags/%E5%BC%80%E6%BA%90/" class="post-tag" title="标签 - 开源">开源</a><a href="/tags/gcc/" class="post-tag" title="标签 - GCC">GCC</a></section>
+    <section><span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/foc_1/" class="post-nav-item" rel="prev" title="FOC控制基础详解"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>FOC控制基础详解</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside><dialog id="toc-dialog" aria-labelledby="toc-dialog-title" role="dialog">
+      <div class="toc">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-drawer"><nav >
+  <ul>
+    <li><a href="#一使用官方-lks_config-配置底层代码简化框架搭建">一、使用官方 LKS_CONFIG 配置底层代码（简化框架搭建）</a>
+      <ul>
+        <li><a href="#1-选择-mcu-型号">1. 选择 MCU 型号</a></li>
+        <li><a href="#2-配置时钟">2. 配置时钟</a></li>
+        <li><a href="#3-配置-io-输出">3. 配置 IO 输出</a></li>
+        <li><a href="#4-开启运放和-adc">4. 开启运放和 ADC</a></li>
+      </ul>
+    </li>
+    <li><a href="#二生成底层代码">二、生成底层代码</a></li>
+    <li><a href="#三使用自带工具编译">三、使用自带工具编译</a>
+      <ul>
+        <li><a href="#1-安装依赖组件-mingw32">1. 安装依赖组件 mingw32</a></li>
+        <li><a href="#2-编译报错及解决方案">2. 编译报错及解决方案</a>
+          <ul>
+            <li><a href="#报错-1外部晶振变量配置错误">报错 1：外部晶振变量配置错误</a></li>
+            <li><a href="#报错-2无法找到-trim_read">报错 2：无法找到 TRIM_Read</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-编译成功验证">3. 编译成功验证</a></li>
+      </ul>
+    </li>
+    <li><a href="#四点灯程序调试">四、点灯程序调试</a></li>
+    <li><a href="#五后续计划切换到-eide-环境">五、后续计划：切换到 EIDE 环境</a></li>
+  </ul>
+</nav></div>
+      </div>
+    </dialog></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.152.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.4.0-alpha.3-20251128065536-6d00e42b"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons"><div class="fixed-button back-to-top animate__faster d-none" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i></div><div id="toc-drawer-button" class="fixed-button toc-drawer-button d-none" role="button" aria-label="目录"><i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="/js/config/6555a07edde8eea81bb13953a6aeb6f9.js" defer></script><script src="/js/theme.min.js" defer></script></body>
+</html>
