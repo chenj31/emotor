@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <meta name="robots" content="noodp" />
-    <title>FOC控制基础详解 - eMotor.top</title><meta name="author" content="eMotor">
+    <title>FOC控制基础详解 - eMotQ.net</title><meta name="author" content="eMotQ">
 <meta name="description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。"><meta name="keywords" content='FOC,电机控制,PMSM,无刷电机,矢量控制'>
   <meta itemprop="name" content="FOC控制基础详解">
   <meta itemprop="description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。">
   <meta itemprop="datePublished" content="2025-11-28T15:58:22+08:00">
   <meta itemprop="dateModified" content="2025-11-28T15:58:22+08:00">
   <meta itemprop="wordCount" content="1160">
-  <meta itemprop="keywords" content="FOC,电机控制,PMSM,无刷电机,矢量控制"><meta property="og:url" content="https://www.eMotor.top/posts/foc_1/">
-  <meta property="og:site_name" content="eMotor.top">
+  <meta itemprop="keywords" content="FOC,电机控制,PMSM,无刷电机,矢量控制"><meta property="og:url" content="https://www.eMotQ.net/posts/foc_1/">
+  <meta property="og:site_name" content="eMotQ.net">
   <meta property="og:title" content="FOC控制基础详解">
   <meta property="og:description" content="本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。">
   <meta property="og:locale" content="en_us">
@@ -30,7 +30,7 @@
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://www.eMotor.top/posts/foc_1/" title="FOC控制基础详解 - eMotor.top" /><link rel="prev" type="text/html" href="https://www.eMotor.top/posts/583bc6c/" title="My First Post" /><link rel="next" type="text/html" href="https://www.eMotor.top/posts/lks45_1/" title="凌鸥45系列的 GCC 平台搭建" /><link rel="alternate" type="text/markdown" href="https://www.eMotor.top/posts/foc_1/index.md" title="FOC控制基础详解 - eMotor.top"><link rel="stylesheet" href="/css/config.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://www.eMotQ.net/posts/foc_1/" title="FOC控制基础详解 - eMotQ.net" /><link rel="prev" type="text/html" href="https://www.eMotQ.net/posts/583bc6c/" title="My First Post" /><link rel="next" type="text/html" href="https://www.eMotQ.net/posts/lks45_1/" title="凌鸥45系列的 GCC 平台搭建" /><link rel="alternate" type="text/markdown" href="https://www.eMotQ.net/posts/foc_1/index.md" title="FOC控制基础详解 - eMotQ.net"><link rel="stylesheet" href="/css/config.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -40,20 +40,20 @@
     "inLanguage": "en-us",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https:\/\/www.eMotor.top\/posts\/foc_1\/"
+      "@id": "https:\/\/www.eMotQ.net\/posts\/foc_1\/"
     },"genre": "posts","keywords": "FOC, 电机控制, PMSM","wordcount":  1160 ,
-    "url": "https:\/\/www.eMotor.top\/posts\/foc_1\/","datePublished": "2025-11-28T15:58:22+08:00","dateModified": "2025-11-28T15:58:22+08:00","publisher": {
+    "url": "https:\/\/www.eMotQ.net\/posts\/foc_1\/","datePublished": "2025-11-28T15:58:22+08:00","dateModified": "2025-11-28T15:58:22+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
-        "name": "eMotor"
+        "name": "eMotQ"
       },"description": "本文详细介绍了FOC（磁场定向控制）的基本原理、实现方法及其在电机控制中的应用。"
   }
   </script><script src="/js/head/color-scheme.min.js"></script></head>
   <body data-instant-intensity="viewport" data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
   <div class="header-wrapper">
     <div class="header-title">
-      <a href="/" title="eMotor.top"><span class="header-title-text">eMotor.top</span></a><span class="header-subtitle"></span></div>
+      <a href="/" title="eMotQ.net"><span class="header-title-text">eMotQ.net</span></a><span class="header-subtitle"></span></div>
     <nav>
       <ul class="menu"><li class="menu-item">
               <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> Archives</a></li><li class="menu-item">
@@ -65,7 +65,7 @@
   <div class="header-container">
     <div class="header-wrapper">
       <div class="header-title">
-        <a href="/" title="eMotor.top"><span class="header-title-text">eMotor.top</span></a><span class="header-subtitle"></span></div>
+        <a href="/" title="eMotQ.net"><span class="header-title-text">eMotQ.net</span></a><span class="header-subtitle"></span></div>
       <div class="theme-switch" role="button" aria-label="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></div>
       <div class="menu-toggle" id="menu-toggle-mobile" role="button" aria-labelledby="menu-mobile">
         <span></span><span></span><span></span>
@@ -82,7 +82,7 @@
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>FOC控制基础详解</span>
       </h1><p class="single-subtitle animate__animated animate__fadeIn">从原理到实现的全面介绍</p></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
-      eMotor</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" class="post-category" title="分类 - 电机控制"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 电机控制</a></span></div><div class="post-meta-line"><span title="发布于 2025-11-28 15:58:22"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-11-28">2025-11-28</time></span>&nbsp;<span title="1160 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      eMotQ</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" class="post-category" title="分类 - 电机控制"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 电机控制</a></span></div><div class="post-meta-line"><span title="发布于 2025-11-28 15:58:22"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-11-28">2025-11-28</time></span>&nbsp;<span title="1160 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -251,9 +251,9 @@ $$<p>其中θ是转子的电角度。</p>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/foc_1/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
-          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://www.eMotor.top/posts/foc_1/" data-title="FOC控制基础详解" data-hashtags="FOC,电机控制,PMSM"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
-  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://www.eMotor.top/posts/foc_1/" data-hashtag="FOC"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
-  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://www.eMotor.top/posts/foc_1/" data-title="FOC控制基础详解"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://www.eMotQ.net/posts/foc_1/" data-title="FOC控制基础详解" data-hashtags="FOC,电机控制,PMSM"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://www.eMotQ.net/posts/foc_1/" data-hashtag="FOC"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://www.eMotQ.net/posts/foc_1/" data-title="FOC控制基础详解"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
   </span>
         </div>
       </div></div>
@@ -299,7 +299,7 @@ $$<p>其中θ是转子的电角度。</p>
     </dialog></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.152.2"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.4.0-alpha.3-20251128065536-6d00e42b"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
         </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
-            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+            <span itemprop="copyrightYear">2026</span><span class="author" itemprop="copyrightHolder">
               <a href="/"></a></span></div></div>
   </footer></div><div class="widgets"><div class="fixed-buttons"><div class="fixed-button back-to-top animate__faster d-none" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i></div><div id="toc-drawer-button" class="fixed-button toc-drawer-button d-none" role="button" aria-label="目录"><i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
     <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>

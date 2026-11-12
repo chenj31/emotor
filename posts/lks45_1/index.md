@@ -112,6 +112,6 @@ RTT Viewer 终端会输出调试日志，验证程序正常运行。
 
 ---
 
-> 作者: eMotor  
-> URL: https://www.eMotor.top/posts/lks45_1/  
+> 作者: eMotQ  
+> URL: https://www.eMotQ.net/posts/lks45_1/  
 

@@ -117,6 +117,6 @@ FOC作为一种先进的电机控制技术，在现代电机控制系统中发�
 
 ---
 
-> 作者: eMotor  
-> URL: https://www.eMotor.top/posts/foc_1/  
+> 作者: eMotQ  
+> URL: https://www.eMotQ.net/posts/foc_1/  
 
